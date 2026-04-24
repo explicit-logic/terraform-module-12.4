@@ -7,7 +7,7 @@ library identifier: 'jenkins-shared-library@main', retriever: modernSCM(
   ]
 )
 
-pipeline {   
+pipeline {
   agent any
   tools {
     maven 'maven-3.9'
@@ -50,6 +50,7 @@ pipeline {
               script: "curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address",
               returnStdout: true
             ).trim()
+            echo "${jenkinsIp}"
             env.TF_VAR_jenkins_ip="${jenkinsIp}/32"
             sh "terraform init -migrate-state -force-copy -input=false"
             sh "terraform apply -auto-approve -input=false"
