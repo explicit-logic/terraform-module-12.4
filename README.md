@@ -66,3 +66,10 @@ terraform {
   }
 }
 ```
+
+### Launch pipeline
+
+To get your IP for `MY_IP` param in jenkins
+```sh
+curl https://ipinfo.io/ip
+```

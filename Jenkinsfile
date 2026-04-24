@@ -15,6 +15,7 @@ pipeline {
   parameters {
     string(name: 'IMAGE_NAME', defaultValue: 'explicitlogic/app')
     string(name: 'IMAGE_TAG', defaultValue: 'java-maven-2.0')
+    string(name: 'MY_IP', defaultValue: '0.0.0.0')
   }
   stages {
     stage("build app") {
@@ -40,10 +41,16 @@ pipeline {
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         TF_VAR_env_prefix = 'test'
+        TF_VAR_my_ip = "${params.MY_IP}/32"
       }
       steps {
         script {
           dir('terraform') {
+            def jenkinsIp = sh(
+              script: "curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address",
+              returnStdout: true
+            ).trim()
+            env.TF_VAR_jenkins_ip="${jenkinsIp}/32"
             sh "terraform init -migrate-state -force-copy -input=false"
             sh "terraform apply -auto-approve -input=false"
             EC2_PUBLIC_IP = sh(
