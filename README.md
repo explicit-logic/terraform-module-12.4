@@ -73,3 +73,16 @@ To get your IP for `MY_IP` param in jenkins
 ```sh
 curl https://ipinfo.io/ip
 ```
+
+Add your IP to credentials
+
+1. Go to `java-maven-app` → **Credentials** → **Global** → **Add Credentials**
+2. Add a **Secret text** credentials with your IP:
+
+ID: `MY_IP`
+
+Secret: `<your public IP>`
+
+The final list of pipeline credentials:
+
+![](./images/jenkins-creds.png)
