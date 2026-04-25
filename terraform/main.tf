@@ -4,6 +4,8 @@ terraform {
     bucket = "myapp-tf-629604312222-eu-central-1-an"
     key = "myapp/state.tfstate"
     region = "eu-central-1"
+    encrypt      = true
+    use_lockfile = true
   }
 }
 
